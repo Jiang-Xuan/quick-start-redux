@@ -1,23 +1,26 @@
-import React, { Component }from 'react'
+import React, { Component } from 'react'
 import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore, compose, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
+import reducers from './reducers/reducers'
+import App from './containers/App'
+import DevTools from './containers/DevTools'
+import { logger } from 'redux-logger'
 
-class App extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: false
-    }
-  }
+const enhancer = compose(
+  applyMiddleware(thunk, logger),
+  DevTools.instrument()
+)
 
-  componentDidMount() {
+const store = createStore(reducers, enhancer)
 
-  }
-
-  render() {
-    return(
-      <div>Hello, World!!!!</div>
-    )
-  }
-}
-
-render(<App />, document.getElementById('root'))
+render(
+  <Provider store={store}>
+    <div>
+      <App />
+      <DevTools />
+    </div>
+  </Provider>,
+  document.getElementById('root')
+)

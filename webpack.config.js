@@ -7,12 +7,10 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const config = {
   entry: {
-    vendor: ['react', 'react-dom'],
     index: [path.resolve(__dirname, 'app/index.js')]
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[chunkhash].[name].js',
     publicPath: ''
   },
   module: {
@@ -28,9 +26,6 @@ const config = {
     }]
   },
   plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['vendor', 'manifest']
-    }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, 'app/index.html')
     }),
